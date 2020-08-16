@@ -53,7 +53,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Validator
-app.use('/user', [
+app.post('/user', [
   // username must be an email
   body('username').isEmail(),
   // password must be at least 5 chars long
