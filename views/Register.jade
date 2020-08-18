@@ -3,6 +3,9 @@ extends layout
 block content
   h1 Register
   p Register here
+  if errors
+   each error, i in errorArray
+     div.alert.alert-danger #{errorArray[i].msg}
   form(method='post', action='/users/Register', enctype='multipart/form-data')
     .form-group
     label Name
@@ -21,6 +24,6 @@ block content
     input.form-control(name='confirmpassword',type='password',placeholder='Confirm Password')
     .form-group
     label Profile Image
-    input.form-control(name='profileimage',type='file',placeholder='Enter Name')
+    input.form-control(name='profileimage',type='file',placeholder='Upload an image')
     .form-group
     input.btn.btn-primary(type='submit',name='submit',value='Register') 

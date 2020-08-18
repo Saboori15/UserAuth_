@@ -12,7 +12,7 @@ var mongo=require('mongodb');
 var mongoose=require('mongoose');
 var flash =require('connect-flash');
 //var expressValidator= require('express-validator');
-const { body, validationResult } = require('express-validator');
+//const { body, validationResult } = require('express-validator');
 var db=mongoose.connection;
 
 var indexRouter = require('./routes/index');
@@ -49,27 +49,19 @@ app.use(session({
   resave:true
 }));
 
+app.use(flash());
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 
-//Validator
-app.post('/user', [
-  // username must be an email
-  body('username').isEmail(),
-  // password must be at least 5 chars long
-  body('password').isLength({ min: 5 })
-], (req, res) => {
-  // Finds the validation errors in this request and wraps them in an object with handy functions
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }});
 
- app.use(require('connect-flash')());
- app.use(function (req, res, next) {
-   res.locals.messages = require('express-messages')(req, res);
-   next();
-});
+
+
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
