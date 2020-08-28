@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session=require('express-session');
 var passport=require('passport');
+var bcrypt=require('bcryptjs');
 var LocalStrategy=require('passport-local');
 var multer = require('multer');
 var upload=multer({dest:'./uploads'});

@@ -1,4 +1,5 @@
 var mongoose=require('mongoose');
+var bcrypt=require('bcryptjs');
 mongoose.connect('mongodb://localhost/UserAuth', { useNewUrlParser: true , useUnifiedTopology: true ,useCreateIndex: true});
 
 var db= mongoose.connection;

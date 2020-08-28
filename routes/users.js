@@ -4,15 +4,31 @@ var multer = require('multer');
 var upload=multer({dest:'./uploads'});
 const { body, validationResult } = require('express-validator');
 var name,email,username,password,confirmpassword,profileimage;
-var flash = require('connect-flash');
+ var flash = require('connect-flash');
 var user=require('../models/user');
+var session = require('express-session');
+// aSecret = process.env.cookie;
 
-//router.use(flash());
+ router.use(flash());
+ router.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
+router.use(session({
+  secret:'secret',
+  saveUninitialized:true,
+  resave:true
+}));
+// router.use(function(req, res, next){
+//   res.locals.success_messages = req.flash('success_messages');
+//   res.locals.error_messages = req.flash('error_messages');
+//   next();
+// });
 
 /* GET users listing. */
 
 router.get('/', function(req, res, next) {
-  res.render('respond with a resource');
+  res.render('index',{title:'Members'});
 });
 router.get('/Register', function(req, res, next) {
   res.render('Register',{title:'Register'});
@@ -86,7 +102,7 @@ router.post('/Register',upload.single('profileimage'), function(req, res, next) 
       if(err) throw err;
       console.log(user);
     });
-    req.flash("Success","You are registered, feel free to login!");
+   req.flash('success','You are registered, feel free to login!');
 
     res.location('/');
     res.redirect('/');
